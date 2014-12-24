@@ -219,7 +219,7 @@ def findInFolder(subject, folder):
             if errors < 10:
                 time.sleep(errors)
             else:
-                common.log("Fatal error: " + repr(error))
+                common.log("Fatal error: " + repr(e))
                 return False
 
     common.log("Updated cache: " + repr(cache), 3)
