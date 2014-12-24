@@ -98,14 +98,14 @@ def postFile(subject, filename, folder):
     while n < 5:
         try:
             while response is None:
-                status, response = request.next_chunk()  
+                status, response = request.next_chunk()
                 if status:
-                    common.progress(filesize,status.progress())    
+                    common.progress(filesize,status.progress())
             common.log("Done: " + repr(response["id"]))
             return True
-           
+
         except errors.HttpError, e:
-            common.log(e)    
+            common.log(e)
             common.log("Backing off")
             time.sleep((2 ** n) + random.randint(0, 1000) / 1000)
             common.log("Retrying")
@@ -157,12 +157,12 @@ def fixDuplicatedEntries(entries):
 
 
 def findInFolder(subject, folder):
-    global cache 
+    global cache
 
     common.log("subject: %s" % (repr(subject)), )
     common.log("folder: %s" % (repr(folder)), 2)
-   
-    for n in range(0,5): 
+
+    for n in range(0,5):
         try:
             found = False
             param = {"fields": "items"}
@@ -172,12 +172,12 @@ def findInFolder(subject, folder):
             else:
                 param["q"] = "title = '%s' and 'root' in parents" % (subject)
 
-    
+
             common.log("Calling with: " + repr(param), 1)
             files = service.files().list(**param).execute()
             common.log("Files : %s "%repr(files), 2)
 
- 
+
             if len(files["items"])>1:
                 common.log("Found the same file %d times, fixing" % (len(files['items'])))
                 fixDuplicatedEntries(files['items'])
@@ -190,13 +190,13 @@ def findInFolder(subject, folder):
                 return files["items"][0]
 
             return False
-                
-         
+
+
 
         except errors.HttpError, e:
             common.log('An error occurred(%s): %s' % (errors, repr(e)))
             time.sleep((2 ** n) + random.randint(0, 1000) / 1000)
- 
+
     common.log("Failure on: " + repr(subject))
     raise GDriveError("Could not complete find")
 
@@ -257,7 +257,7 @@ def deleteFile(subject, folder):
 
 def setFolder(base):
     common.log(repr(base) )
-    
+
     for n in range(0,5):
         try:
             if base in cache:
@@ -343,7 +343,7 @@ def transfer(line):
                 else:
                     common.sprint('TRANSFER-FAILURE RETRIEVE ' + line[2] + ' File could not be retrieved')
                     break
-            
+
         except errors.HttpError, e:
             common.log("HttpError : %s" % repr(e))
             time.sleep((2 ** n) + random.randint(0, 1000) / 1000)
@@ -354,7 +354,7 @@ def checkpresent(line):
 
     for n in range(0, 5):
         try:
-            
+
             folder = setFolder(conf["folder"])
 
             if not len(folder):
@@ -379,7 +379,7 @@ def checkpresent(line):
 def remove(line):
     common.log("")
     folder = setFolder(conf["folder"])
-                
+
     if deleteFile(line[1], folder):
         common.sprint('REMOVE-SUCCESS ' + line[1] + '')
     else:

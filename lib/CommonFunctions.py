@@ -179,7 +179,7 @@ def updateWanted(size, filetypes):
         expr += "("
         org_filetypes = re.compile("include=(.*?) ").findall(old_wanted)
         for t in filetypes:
-            expr += "include=*." + t + " or " 
+            expr += "include=*." + t + " or "
         expr = expr.strip()
         if expr.rfind(" ") > -1:
             expr = expr[:expr.rfind(" ")]
