@@ -15,6 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
+
 import os
 import sys
 import urllib
@@ -31,13 +32,11 @@ dbglevel = sys.modules["__main__"].dbglevel
 size_modifier = 1.0
 lastpct = 0
 
-
 USERAGENT = u"Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1"
 
 
 if hasattr(sys.modules["__main__"], "opener"):
     urllib2.install_opener(sys.modules["__main__"].opener)
-
 
 
 def fetchPage(params={}):
@@ -47,17 +46,12 @@ def fetchPage(params={}):
     log(link)
     ret_obj = { "new_url": link}
 
-
     request = urllib2.Request(link)
 
     if get("headers"):
         for head in get("headers"):
             log("Adding header: " + repr(head[0]) + " : " + repr(head[1]))
             request.add_header(head[0], head[1])
-
-#    request.add_header('User-Agent', USERAGENT)
-
-
 
     try:
         log("connecting to server...", 1)
@@ -117,9 +111,6 @@ def fetchPage(params={}):
         return ret_obj
 
 
-
-
-
 def log(description, level=0):
     if dbglevel > level:
         timestamp = time.strftime("%H:%M:%S", time.localtime())
@@ -136,6 +127,7 @@ def log(description, level=0):
 def progress(size=None, progress=None):
     sprint("PROGRESS " + str(int(progress * size)))
 
+
 def sprint(txt):
     try:
         sys.stdout.write(txt + "\n")
@@ -143,11 +135,13 @@ def sprint(txt):
     except:
         pass
 
+
 def getCreds():
     log("", 3)
     creds = ask('GETCREDS mycreds').split(" ")
     log("Done: " + repr(creds), 3)
     return creds
+
 
 def getConfig(key):
     log(key, 3)
@@ -155,10 +149,12 @@ def getConfig(key):
     log("Done: " + repr(value), 3)
     return value
 
+
 def ask(question):
     sprint(question)
     value = sys.stdin.readline().replace("\n", "")
     return value
+
 
 def updateWanted(size, filetypes):
     log(repr(size) + " - " + repr(filetypes))
@@ -197,7 +193,6 @@ def updateWanted(size, filetypes):
             log("New failing size is not smaller than already excluded size: " + repr(org_size) + " - " + repr(size))
             expr += "(not largerthan=" + str(org_size) + ")"
 
-
     if not len(expr):
         expr = "include=*"
 
@@ -206,8 +201,10 @@ def updateWanted(size, filetypes):
 
     log("Done")
 
+
 def sendError(msg):
     sprint("ERROR " + msg)
+
 
 def startRemote():
     log("")

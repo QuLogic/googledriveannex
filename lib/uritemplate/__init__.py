@@ -3,12 +3,14 @@
 import re
 import urllib
 
+
 RESERVED = ":/?#[]@!$&'()*+,;="
 OPERATOR = "+./;?|!@"
 EXPLODE = "*+"
 MODIFIER = ":^"
 TEMPLATE = re.compile(r"{(?P<operator>[\+\./;\?|!@])?(?P<varlist>[^}]+)}", re.UNICODE)
 VAR = re.compile(r"^(?P<varname>[^=\+\*:\^]+)((?P<explode>[\+\*])|(?P<partial>[:\^]-?[0-9]+))?(=(?P<default>.*))?$", re.UNICODE)
+
 
 def _tostring(varname, value, explode, operator, safe=""):
   if type(value) == type([]):
@@ -51,6 +53,7 @@ def _tostring_path(varname, value, explode, operator, safe=""):
     else:
       return ""
 
+
 def _tostring_query(varname, value, explode, operator, safe=""):
   joiner = operator
   varprefix = ""
@@ -82,6 +85,7 @@ def _tostring_query(varname, value, explode, operator, safe=""):
       return varname + "=" + urllib.quote(value, safe)
     else:
       return varname
+
 
 TOSTRING = {
     "" : _tostring,

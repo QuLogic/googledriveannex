@@ -35,6 +35,7 @@ from apiclient import errors
 from apiclient.discovery import build
 import httplib2
 
+
 client_id = "617824357867.apps.googleusercontent.com"
 client_secret = "vYxht56r40BlwpEagH_oPJPP"
 redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
@@ -43,6 +44,7 @@ http = httplib2.Http()
 service = False
 credentials = False
 cache = {}
+
 
 def login(cred={}):
     common.log("")
@@ -199,6 +201,7 @@ def findInFolder(subject, folder):
     common.log("Failure on: " + repr(subject))
     raise GDriveError("Could not complete find")
 
+
 def checkFile(subject, folder):
     common.log(subject)
 
@@ -212,6 +215,7 @@ def checkFile(subject, folder):
     else:
         common.log("Failure")
         return False
+
 
 def getFile(subject, filename, folder):
     common.log(subject)
@@ -240,6 +244,7 @@ def getFile(subject, filename, folder):
 
     return False
 
+
 def deleteFile(subject, folder):
     common.log(subject)
 
@@ -253,6 +258,7 @@ def deleteFile(subject, folder):
     else:
         common.log("Failure")
         return False
+
 
 def setFolder(base):
     common.log(repr(base) )
@@ -277,6 +283,7 @@ def setFolder(base):
             n+=1
     return None
 
+
 ## gaprot interface
 
 def initremote(line):
@@ -295,6 +302,7 @@ def initremote(line):
     else:
         common.sprint('INITREMOTE-SUCCESS')
     common.log("Done")
+
 
 def prepare(line):
     common.log("")
@@ -315,6 +323,7 @@ def prepare(line):
     else:
         common.sprint('PREPARE-FAILURE You need to set USERNAME and PASSWORD environment variables and folder and encryption parameters for the remote.')
     common.log("")
+
 
 def transfer(line):
     common.log("")
@@ -348,6 +357,7 @@ def transfer(line):
             time.sleep((2 ** n) + random.randint(0, 1000) / 1000)
     common.log("Done")
 
+
 def checkpresent(line):
     common.log("")
 
@@ -375,6 +385,7 @@ def checkpresent(line):
     common.sprint('CHECKPRESENT-UNKNOWN ' + line[1] + ' this remote is currently not available')
     common.log("Done")
 
+
 def remove(line):
     common.log("")
     folder = setFolder(conf["folder"])
@@ -385,9 +396,11 @@ def remove(line):
         common.sprint('REMOVE-FAILURE ' + line[1] + ' This file could not be removed')
     common.log("Done")
 
+
 def getCost():
     common.log("", 3)
     common.sprint("COST 150")
+
 
 t = time.time()
 if dbglevel > 0:
