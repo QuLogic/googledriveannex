@@ -17,12 +17,11 @@ conf = {}
 version = "0.2.1"
 plugin = "googledriveannex-" + version
 
-pwd = os.path.realpath(__file__)
-pwd = pwd[:pwd.rfind("/")]
+pwd = os.path.dirname(os.path.realpath(__file__))
 if dbglevel:
     sys.stderr.write("Path: " + repr(pwd) + "\n")
 
-sys.path.append(pwd + '/lib')
+sys.path.append(os.path.join(pwd, 'lib'))
 
 import CommonFunctions as common
 
